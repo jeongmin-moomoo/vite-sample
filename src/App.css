@@ -1,0 +1,44 @@
+/* App.css */
+/* 👉 전체 색/간격/글꼴 같은 기본 설정 */
+:root { --gap: 16px; --card: #fff; --line:#eee; --text:#222; --muted:#666; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: system-ui, -apple-system, sans-serif; background:#f6f7f8; color:var(--text); }
+
+/* 앱 전체 폭을 가운데 정렬하고 좌우 여백을 줌 */
+.container { max-width: 880px; margin: 0 auto; padding: var(--gap); }
+
+/* 상단 바(제목 줄) */
+.topbar { display:flex; align-items:center; height:56px; }
+.topbar h1 { font-size: 20px; margin: 0; }
+
+/* 피드: 카드 여러 개를 세로 정렬 + 간격 */
+.feed { display: grid; gap: var(--gap); }
+
+/* 게시물 카드 박스 */
+.post { background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+
+/* 카드 상단: 아바타 + 사용자명 */
+.post-header { display:flex; align-items:center; gap:10px; padding:10px 12px; }
+.avatar { width:32px; height:32px; border-radius:50%; object-fit:cover; }
+.user { font-weight:600; }
+
+/* 본문 이미지: 가로폭 꽉 차게, 세로는 비율맞춰 자르기 */
+.post-img { width:100%; display:block; max-height: 520px; object-fit: cover; background:#ddd; }
+
+/* 액션 영역: 좋아요 버튼 + 좋아요 수 */
+.post-actions { display:flex; align-items:center; gap:10px; padding:10px 12px; }
+.heart { border:none; background:transparent; font-size:20px; cursor:pointer; line-height:1; }
+.heart.on { color:#e11d48; }   /* 눌렀을 때 하트 색상 */
+.likes { color:var(--text); }
+
+/* 캡션 영역 */
+.caption { padding:0 12px 8px; }
+.caption b { margin-right:6px; }
+
+/* 댓글 목록: 기본 ul 스타일 제거하고 세로로 간격 */
+.comments { list-style:none; margin:0; padding:0 12px 8px; display:flex; flex-direction:column; gap:6px; color:var(--text); }
+
+/* 댓글 입력 박스: 입력창 + 버튼 가로 배치 */
+.comment-box { display:flex; gap:8px; border-top:1px solid var(--line); padding:10px 12px; }
+.comment-box input { flex:1; padding:10px; border:1px solid var(--line); border-radius:8px; }
+.comment-box button { padding:10px 14px; border:none; background:#2563eb; color:#fff; border-radius:8px; cursor:pointer; }
