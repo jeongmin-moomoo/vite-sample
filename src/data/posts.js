@@ -10,7 +10,7 @@ export const POSTS = [
     image: "https://picsum.photos/seed/latte/600/400", // 본문 이미지 URL
     caption: "아침 라떼 ☕️",               // 글(캡션)
     likes: 12,                              // 좋아요 수(시작값)
-    comments: ["맛있겠다!", "라떼아트 예쁘다"] // 댓글 배열(문자열)
+    comments: ["맛있겠다!", "라떼아트 예쁘다"], // 댓글 배열(문자열)
     createdAt: new Date(Date.now() - 1000 * 60 * 90).toISOString()
   },
   {
