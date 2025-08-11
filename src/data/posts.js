@@ -20,7 +20,7 @@ export const POSTS = [
     image: "https://picsum.photos/seed/kitty/600/400",
     caption: "냥이가 점프!",
     likes: 34,
-    comments: ["심쿵", "귀여워요 😻"]
+    comments: ["심쿵", "귀여워요 😻"],
     createdAt: new Date(Date.now() - 1000 * 60 * 90).toISOString()
   },
   {
@@ -30,7 +30,7 @@ export const POSTS = [
     image: "https://picsum.photos/seed/beach/600/400",
     caption: "바다 가고 싶다 🌊",
     likes: 7,
-    comments: [] // 댓글이 아직 없을 수도 있어요
+    comments: [], // 댓글이 아직 없을 수도 있어요
     createdAt: new Date(Date.now() - 1000 * 60 * 90).toISOString()
   }
 ];
