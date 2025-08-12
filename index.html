@@ -1,16 +1,14 @@
-<!doctype html>
-<html lang="ko">
+<!doctype html> <!-- 문서가 HTML5 규칙을 따른다고 선언 -->
+<html lang="ko"> <!-- 페이지의 언어가 한국어임을 표시(접근성/검색 도움) -->
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <meta charset="UTF-8" /> <!-- 한글이 깨지지 않도록 문자 인코딩 설정 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- 모바일 화면 대응 -->
+    <title>포트폴리오 레이아웃</title> <!-- 브라우저 탭 제목 -->
   </head>
   <body>
-    <div id="root"></div>
-    <!-- React가 붙을 시작 파일 -->
-    <script type="module" src="/src/main.jsx"></script>
-    <!-- TypeScript로 만들었다면: /src/main.tsx -->
-     <script type="module" src="/src/main.jsx"></script>  <!-- TS면 .tsx -->
+    <div id="app"></div> <!-- JS가 여기에 화면(전체)을 붙여 넣습니다 -->
+
+    <script type="module" src="/src/main.jsx"></script> <!-- 앞에 /만, 프로젝트명 붙이지 않음 -->
 
   </body>
 </html>

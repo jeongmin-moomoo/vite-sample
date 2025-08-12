@@ -1,0 +1,351 @@
+/* =========================
+   0) 공통(전역) 스타일
+   ========================= */
+
+/* 전체 배경/글꼴 */
+body {
+  background: #121417;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+/* 상단 네비게이션 */
+.navbar {
+  position: absolute;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  width: 100%;
+  background: none;
+  background-color: transparent;
+  justify-content: flex-start;
+}
+
+nav button {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+nav button.active {
+  color: #fff;
+  font-weight: bold;
+}
+
+.navbar button {
+  margin-top: 40px;
+  margin-left: 40px;
+  color: #fff;
+  padding: 16px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  background: none;
+}
+
+/* 페이지 간 구분선(위치·두께만 전역) */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: #fff;
+  margin: 139px 0 0 0;
+  opacity: 0.6;
+}
+
+/* 링크 색 유지 */
+.porfile-item a,
+.profile-item a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* 유틸 */
+.fade-message {
+  opacity: 0;
+  color: tomato;
+  font-size: 0.9rem;
+  transition: opacity 0.5s ease;
+  margin-top: 10px;
+  height: 1em;
+}
+.fade-message.show { opacity: 1; }
+
+/* =========================
+   1) 메인 페이지: .main-page
+   ========================= */
+
+.main-page .container {
+  flex-grow: 1;
+  width: 95%;
+  max-width: 1200px;
+  margin: 60px auto 40px;
+  background: rgba(30, 30, 30, 0);
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.main-page .profile-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.main-page .porfile-photo { /* 오타 클래스, 기존 유지 */
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 100%;
+  box-shadow: 0 0 10px rgb(97, 97, 97);
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.main-page .info {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+/* 메인 전용 좌/우(프로필 페이지의 .left/.right와 충돌 방지) */
+.main-page .left,
+.main-page .right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.main-page .profile-item {
+  background: none;
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 4px;
+}
+
+.main-page .tools-title {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 16px 0;
+  text-align: center;
+}
+
+.main-page .tools {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+}
+
+.main-page .tool-image {
+  width: 100%;
+  max-width: 80px;
+  min-width: 50px;
+  border-radius: 16px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+  border: 2px solid #fff;
+}
+
+/* =========================
+   2) 프로젝트 페이지: .project-page
+   ========================= */
+
+.project-page .project-header {
+  text-align: center;
+  font-size: 36px;
+  color: #fff;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+.project-page .gallery-container {
+  max-width: 80%;
+  margin: 0 auto;
+  padding-bottom: 32px;
+}
+
+.project-page .gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.project-page .gallery-grid a { display: block; }
+.project-page .gallery-item {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px;
+  transition: transform .2s ease;
+}
+.project-page .gallery-item:hover { transform: scale(1.06); }
+
+@media (max-width: 768px) {
+  .project-page .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* =========================
+   3) 카운터 페이지: .counter-page
+   ========================= */
+
+.counter-page .counter-card {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #171717;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,.22);
+  text-align: center;
+}
+.counter-page .counter-title {
+  color:#fff; margin:0 0 12px; font-weight:700;
+}
+.counter-page .counter-value {
+  color:#fff; font-size:56px; font-weight:800; letter-spacing:1px; margin:12px 0 20px;
+}
+.counter-page .counter-actions {
+  display:flex; justify-content:center; gap:12px;
+}
+.counter-page .counter-actions .btn {
+  padding:10px 16px; font-size:18px; font-weight:700; color:#111;
+  background:#e6e6e6; border:none; border-radius:10px; cursor:pointer;
+}
+.counter-page .counter-actions .btn:hover { filter:brightness(.95); }
+.counter-page .counter-actions .btn.reset { background:#ffd166; }
+
+/* =========================
+   4) 프로필 페이지: .profile-page
+   ========================= */
+
+.profile-page .profile-header {
+  text-align:center;
+  font-size:36px;
+  color:#ccc;
+  margin:20px 0;
+  font-weight:bold;
+}
+
+.profile-page main {
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:40px 20px;
+}
+
+.profile-page .card {
+  display:flex;
+  width:90%;
+  max-width:1100px;
+  background:#171717;
+  padding:40px;
+  border-radius:8px;
+  box-shadow:0 0 15px rgba(0,0,0,0.1);
+  justify-content:space-between;
+}
+
+.profile-page .left {
+  flex:1 1 0;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  min-width:280px;
+}
+
+.profile-page .profile-pic {
+  width:260px; height:260px;
+  border-radius:50%;
+  border:6px solid #ddd;
+  object-fit:cover;
+  align-self:flex-start;
+}
+
+.profile-page .name { font-size:2.5rem; margin:0; color:#fff; }
+.profile-page .message-preview { min-height:80px; white-space:pre-wrap; line-height:1.5; color:#fff; }
+
+.profile-page .contact { margin-top:auto; display:flex; flex-direction:column; gap:4px; color:#fff; }
+.profile-page .contact-title { font-weight:700; font-size:1.1rem; color:#fff; }
+
+.profile-page .right {
+  flex:0 0 340px;
+  max-width:340px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  color:#fff;
+}
+
+.profile-page form { display:grid; gap:20px; width:100%; }
+.profile-page label { font-weight:600; }
+.profile-page input,
+.profile-page textarea {
+  padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; background:#fff;
+}
+.profile-page textarea { resize:vertical; min-height:80px; }
+.profile-page button[type="submit"] {
+  padding:12px; font-size:1rem; background:#4d90fe; color:#fff; border:none; border-radius:4px; cursor:pointer;
+}
+.profile-page button[type="submit"]:hover { background:#357ae8; }
+
+@media (max-width:768px){
+  .profile-page .card { flex-direction:column; align-items:center; text-align:center; }
+  .profile-page .right { max-width:100%; }
+  .profile-page .profile-pic { align-self:center; }
+}
+
+/* =========================
+   5) 갤러리 페이지(벽돌형): .gallery-page
+   ========================= */
+
+.gallery-page .gallery-header {
+  text-align: center;
+  font-size: 36px;
+  color: #ccc;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.gallery-page .gallery-box {
+  column-count: 3;
+  column-gap: 20px;
+  padding: 16px;
+}
+
+.gallery-page .gallery-card {
+  margin-bottom: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(255,255,255,0.1);
+}
+
+.gallery-page .gallery-card img {
+  width: 100%;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .gallery-page .gallery-box { column-count: 2; }
+}
+
+/* ===== Counter: 이 페이지 안에서만 적용 ===== */
+.counter-page .counter-card {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #171717;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,.22);
+  text-align: center;
+}
+.counter-page .counter-title  { color:#fff; margin:0 0 12px; font-weight:700; }
+.counter-page .counter-value  { color:#fff; font-size:56px; font-weight:800; letter-spacing:1px; margin:12px 0 20px; }
+.counter-page .counter-actions{ display:flex; justify-content:center; gap:12px; }
+.counter-page .counter-actions .btn {
+  padding:10px 16px; font-size:18px; font-weight:700; color:#111;
+  background:#e6e6e6; border:none; border-radius:10px; cursor:pointer;
+}
+.counter-page .counter-actions .btn:hover { filter:brightness(.95); }
+.counter-page .counter-actions .btn.reset { background:#ffd166; }

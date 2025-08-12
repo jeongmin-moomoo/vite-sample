@@ -6,7 +6,7 @@ export const POSTS = [
   {
     id: 1,                                  // 각 게시물을 구분하는 고유 번호
     user: "coffee_lover",                   // 작성자 이름(아이디 느낌)
-    avatar: "https://i.pravatar.cc/100?img=12", // 작성자 아바타(프로필 사진) URL
+    avatar: "https://i.pravatar.cc/100?img=12", // 작성자 아바타(프로필 pic) URL
     image: "https://picsum.photos/seed/latte/600/400", // 본문 이미지 URL
     caption: "아침 라떼 ☕️",               // 글(캡션)
     likes: 12,                              // 좋아요 수(시작값)
