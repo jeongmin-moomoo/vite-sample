@@ -50,3 +50,13 @@ function renderMain() {
     ])
   ]);
 }
+
+// vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  base: '/vite-sample/', // GitHub Pages 배포 시
+  plugins: [react()],
+  build: { outDir: 'dist' },
+});
