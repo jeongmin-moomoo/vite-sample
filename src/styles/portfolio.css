@@ -103,6 +103,14 @@ nav button.active {
   margin: 0 auto 10px;
 }
 
+/* 프로필 글자색이 날아가는 문제 방지: 프로필 페이지 스코프를 강제 */
+.profile-page .name,
+.profile-page .message-preview,
+.profile-page .contact,
+.profile-page .contact-title {
+  color: #fff !important; /* 다른 전역 규칙이 덮어써도 이게 최우선으로 남게 */
+}
+
 .main-page .info {
   display: flex;
   justify-content: space-between;

@@ -1,5 +1,7 @@
 // ====== 0) 스타일 불러오기 (항상 파일 맨 위) ======
 import './styles/portfolio.css'; // Vite는 JS에서 CSS를 import하면 전체에 적용됨  // 언제: 전역 스타일을 적용할 때
+// 한 줄 추가 — 모든 로컬 이미지 경로는 이 BASE로 시작하게!
+const BASE = import.meta.env.BASE_URL || '/'; // 예) '/vite-sample/' 또는 '/'
 
 // ====== 1) el 헬퍼: 태그 손쉽게 만들기 ======
 function el(tag, attrs = {}, children = []) { // el: HTML 요소를 쉽게 만드는 작은 도우미  // 언제: DOM을 JS로 생성할 때
@@ -48,13 +50,14 @@ function renderMain() {
   // 왼쪽: 프로필 사진
   const left = el('div', { class: 'left' }, [
     el('img', {
-      src: '/pic/profile.png',      // public/pic/profile.png
+      src: `${BASE}pic/profile.png`, // ✅ BASE 변수 사용
       alt: '내 프로필',
-      class: 'porfile-photo'        // 주의: CSS에 맞춰서 그대로
+      class: 'porfile-photo'
     })
   ]);
 
-  // 오른쪽: 링크/소개
+
+   // 오른쪽: 링크/소개 (원래 코드 유지)
   const right = el('div', { class: 'right' }, [
     el('div', { class: 'profile-item' }, [
       el('a', { href: 'https://www.instagram.com/moozi_dan_/', target: '_blank' }, 'Moozi_dan_')
@@ -73,10 +76,10 @@ function renderMain() {
     el('div', { class: 'info' }, [left, right])
   ]);
 
-  // 툴 로고
+ // 툴 로고
   const tools = el('div', { class: 'tools' }, [
-    el('img', { src: '/pic/figma.png',  alt: '사용가능툴', class: 'tool-image' }),
-    el('img', { src: '/pic/github.png', alt: '사용가능툴', class: 'tool-image' }),
+    el('img', { src: `${BASE}pic/figma.png`,  alt: '사용가능툴', class: 'tool-image' }),
+    el('img', { src: `${BASE}pic/github.png`, alt: '사용가능툴', class: 'tool-image' }),
   ]);
 
   // 메인 콘텐츠(좌우, 툴 포함)
@@ -87,14 +90,17 @@ function renderMain() {
     tools
   ]);
 
-  // ✅ 메인 페이지 전체 감싸기
-  return el('div', { class: 'main-page' }, [
+ return el('div', { class: 'main-page' }, [
     NavBar('main'),
     Divider(),
-    mainContent
+    el('main', { class: 'container' }, [
+      el('div', { class: 'info' }, [left, right]),
+      Divider(),
+      el('h3', { class: 'tools-title' }, 'tools'),
+      tools
+    ])
   ]);
 }
-
 
 // 3-2) Project 페이지 (썸네일 그리드)
 function renderProject() {
