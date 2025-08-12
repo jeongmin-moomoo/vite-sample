@@ -4,7 +4,7 @@ function renderMain() {
   // 왼쪽: 프로필 사진
   const left = el('div', { class: 'left' }, [                   // 왼쪽 영역 래퍼  // 언제: 프로필 사진을 왼쪽에 배치
     el('img', {
-      src: `${base}pic/profile.png`,                            // ✅ public/pic/profile.png  // 언제: 정적 이미지(배포 포함)
+      src: `${base}/pic/profile.png`,                            // ✅ public/pic/profile.png  // 언제: 정적 이미지(배포 포함)
       alt: '내 프로필',                                         // 이미지 대체 텍스트  // 언제: 접근성/이미지 로드 실패 대비
       class: 'porfile-photo'                                    // ✅ 네 CSS에 맞춘 클래스명(오타 유지)  // 언제: 기존 스타일과 정확히 매칭
     })
