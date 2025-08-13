@@ -92,11 +92,11 @@ function renderProject() {
     ]),
     // 3: 카운터로 이동
     el('a', { href: '#/counter', title: '카운터로 이동' }, [
-      el('img', { src: `${BASE}pic/막내3.jpg`, class: 'gallery-item' })
+      el('img', { src: `${BASE}pic/count.png`, class: 'gallery-item' })
     ]),
     // 4. 성류방송
     el('a', { href: '#/support', title: '방송 후원으로 이동' }, [
-      el('img', { src: `${BASE}pic/막내4.jpg`, class: 'gallery-item' })
+      el('img', { src: `${BASE}pic/jdc.jpg`, class: 'gallery-item' })
     ]),
     
 
