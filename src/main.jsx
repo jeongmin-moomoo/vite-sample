@@ -94,6 +94,11 @@ function renderProject() {
     el('a', { href: '#/counter', title: '카운터로 이동' }, [
       el('img', { src: `${BASE}pic/막내3.jpg`, class: 'gallery-item' })
     ]),
+    // 4. 성류방송
+    el('a', { href: '#/support', title: '방송 후원으로 이동' }, [
+      el('img', { src: `${BASE}pic/막내4.jpg`, class: 'gallery-item' })
+    ]),
+    
 
     // 나머지 로컬 썸네일들(전부 BASE 사용)
     el('img', { src: `${BASE}pic/막내2.jpg`,  class: 'gallery-item' }),
@@ -229,9 +234,185 @@ function router() {
     case 'gallery': page = renderGallery(); break
     case 'counter': page = renderCounter(); break   // ✅ 카운터 라우트
     case 'me':      page = renderMe();      break
+    case 'support': page = renderSupport(); break;  // ← 이 줄 추가
+
     default:        page = renderMain()
   }
   app.appendChild(page)
 }
 window.addEventListener('hashchange', router)
 window.addEventListener('DOMContentLoaded', router)
+// ====== 3-x) Support: 방송 후원하기 (코인 단위 + 메시지 풍선) ======
+function renderSupport() {
+  const BASE = import.meta.env.BASE_URL || '/';                         // 배포/로컬 모두 안전한 경로  // 언제: public 파일 접근
+
+  // ① 코인 규칙(최소/단위)
+  const MIN_COIN  = 100;                                                // 최소 100코인  // 언제: 유효성 검사 기준
+  const COIN_STEP = 100;                                                // 100코인 단위  // 언제: 숫자 입력의 증가 단위
+
+  // ② 총 코인(저장/표시)
+  const fmt   = (n) => n.toLocaleString('ko-KR');                       // 1,234 형식  // 언제: 보기 좋게 표기
+  let total   = Number(localStorage.getItem('support_total_coin') || 0);// 저장된 총합 불러오기  // 언제: 새로고침 후에도 유지
+  const totalEl = el('div', { class: 'support-total' }, `총 후원: ${fmt(total)} 코인`); // 화면 표시 텍스트
+
+  // === (NEW) 풍선들이 떠다닐 레이어(화면 전체 덮는 투명층) ===
+  const balloonLayer = el('div', { class: 'balloon-layer' });           // 풍선 DOM을 모아두는 레이어  // 언제: 메시지 시각효과 올릴 때
+
+  // === (NEW) 메시지 풍선 여러 개 띄우기 ===
+  // text: 풍선 문구, count: 몇 개 만들지
+  function spawnBalloons(text, count = 16) {                            // 후원할 때 메시지를 풍선처럼 여러 개 띄우기  // 언제: submit 클릭 직후
+    const t = text.length > 30 ? text.slice(0, 30) + '…' : text;        // 너무 길면 잘라서 한 줄 처리
+
+    for (let i = 0; i < count; i++) {
+      const left  = Math.floor(Math.random() * 100);                    // 풍선 가로 시작 위치(0~100vw)
+      const dur   = (6 + Math.random() * 6).toFixed(2) + 's';           // 떠오르는 시간 6~12초
+      const delay = (Math.random() * 2).toFixed(2) + 's';               // 시작 지연 0~2초
+      const scale = (0.8 + Math.random() * 0.8).toFixed(2);             // 크기 0.8~1.6배
+      const hue   = Math.floor(Math.random() * 360);                    // 색상(HSL) 랜덤
+
+      const balloon = el('div', {                                       // 풍선 하나
+        class: 'balloon',
+        style: `--left:${left}vw; --dur:${dur}; --delay:${delay}; --scale:${scale}; --hue:${hue};` // CSS 변수로 제어
+      }, [
+        el('div', { class: 'balloon-bubble' }, t)                        // 말풍선 모양 내부에 텍스트
+      ]);
+
+      balloonLayer.appendChild(balloon);                                 // 레이어에 추가
+
+      // 애니메이션 끝나면 자동 제거(메모리 누수 방지)
+      const totalMs = (parseFloat(dur) + parseFloat(delay)) * 1000;
+      setTimeout(() => balloon.remove(), totalMs + 200);
+    }
+  }
+
+  // ③ 상단: 호스트 이미지 + 제목
+  const hostImg = el('img', {                                           // 후원받는 사람 사진
+    class: 'support-host-photo',                                        // 크기/테두리 등 CSS 연결용 클래스
+    src: `${BASE}pic/you.png`,                                          // public/pic/you.png 에 파일 두면 됨(파일명 맞춰서 수정)
+    alt: '방송 주인장'
+  });
+  const hostWrap = el('div', { class: 'host-photo-wrapper' }, [hostImg]); // 이미지를 가운데 두는 래퍼
+  const title    = el('div', { class: 'support-title' }, '김독자 후원하기'); // 큰 제목(한 줄)
+
+  // ④ 입력 폼 요소들
+  const nameInput = el('input', {                                       // 이름(닉네임) 입력
+    class: 'support-input',
+    placeholder: '이름(닉네임) *',
+    value: localStorage.getItem('support_name') || ''                   // ✅ 한 번 입력하면 기억(자동 복원)
+  });
+
+  const lastAmount = localStorage.getItem('support_last_amount');       // ✅ 마지막으로 입력한 코인값 불러오기
+  const amountInput = el('input', {                                     // 금액 입력
+    class: 'support-input',
+    type: 'number',
+    min: String(MIN_COIN),
+    step: String(COIN_STEP),
+    value: lastAmount ? String(lastAmount) : String(MIN_COIN),          // ✅ 저장값이 있으면 그걸 기본값으로
+    oninput: (e) => {                                                   // 사용자가 직접 수정해도 기억  // 언제: 입력 즉시 저장
+      const n = Number(e.target.value || 0);
+      localStorage.setItem('support_last_amount', String(n));
+    }
+  });
+
+  // 프리셋(누적 방식)
+  const PRESETS = [100, 500, 1000];                                     // 빠른 선택 버튼 숫자들
+  const presetBtns = el('div', { class: 'coin-presets' },               // 버튼 묶음
+    PRESETS.map(v =>
+      el('button', {
+        class: 'coin-btn',
+        onclick: () => {                                                // 누르면 누적(+)
+          const cur = Number(amountInput.value || 0);
+          const next = cur + v;
+          amountInput.value = String(next);
+          localStorage.setItem('support_last_amount', String(next));    // ✅ 누적값도 저장
+        }
+      }, `${v.toLocaleString('ko-KR')} 코인`)
+    )
+  );
+
+  const amountRow = el('div', {}, [                                     // 금액 라벨 + 프리셋 + 입력창 한 줄 묶음
+    el('label', { class: 'support-label' }, '금액(코인) *'),
+    presetBtns,
+    el('div', { style: 'display:flex; gap:8px; align-items:center;' }, [
+      amountInput,
+      el('span', { style: 'color:#cfd4ff;' }, '코인')
+    ])
+  ]);
+
+  const msgInput = el('textarea', {                                     // 하고 싶은 말
+    class: 'support-textarea',
+    placeholder: '하고 싶은 말을 적어주세요 (선택)'
+  });
+
+  // ⑤ 제출 버튼(후원 처리)
+  const submitBtn = el('button', {
+    class: 'support-submit',
+    onclick: () => {                                                    // “후원하기” 클릭 시 동작
+      const name  = nameInput.value.trim();                             // 입력 이름
+      const coins = Number(amountInput.value);                          // 입력 코인
+
+      if (!name) {                                                      // 이름 비었으면 경고
+        alert('이름(닉네임)을 입력해주세요.');
+        nameInput.focus();
+        return;
+      }
+      if (!Number.isFinite(coins) || coins < MIN_COIN) {                // 최소 금액 미만이면 경고
+        alert(`최소 ${MIN_COIN} 코인 이상부터 후원할 수 있어요.`);
+        amountInput.focus();
+        return;
+      }
+
+      total += coins;                                                   // 총합 갱신
+      localStorage.setItem('support_total_coin', String(total));        // 총합 저장(유지)
+      localStorage.setItem('support_name', name);                       // 이름 저장(유지)
+      localStorage.setItem('support_last_amount', String(coins));       // 마지막 코인값 저장(유지)
+      totalEl.textContent = `총 후원: ${fmt(total)} 코인`;              // 화면 텍스트 갱신
+
+      const message = msgInput.value.trim();                            // 입력 메시지
+      const say = message ? `\n메시지: ${message}` : '';                // 알림 표시용
+      alert(`${name} 님이 ${fmt(coins)} 코인 후원!${say}`);
+
+      // === (NEW) 메시지 풍선 쏘기 ===
+      if (message) spawnBalloons(message, 18);                          // 메시지가 있으면 18개 띄우기
+
+      // 코인값은 유지(리셋하지 않음) → 다음 후원 시에도 같은 값 남김
+      // amountInput.value = String(MIN_COIN);  // ← 의도적으로 미사용
+      // (기존 alert 다음)
+const sayMsg = msgInput.value.trim();
+spawnBalloons(sayMsg || `${name} 님 감사합니다!`, 16);
+
+// 코인 값은 유지, 메시지만 비우기
+msgInput.value = '';
+
+
+      msgInput.value = '';                                              // 메시지만 비우기(원하면 유지해도 됨)
+    }
+  }, '후원하기');
+
+  // ⑥ 좌측 카드(모든 입력요소는 카드 안에!)  ← 튀어나오지 않게 “support-card” 안으로 다 넣음
+  const leftCol = el('div', {}, [
+    hostWrap,                                                           // 사진
+    title,                                                              // 제목
+    totalEl,                                                            // 총합
+    el('div', { class: 'support-card' }, [                              // 입력 카드(경계 안쪽에 전부 배치)
+      el('label', { class: 'support-label' }, '이름(닉네임) *'),
+      nameInput,
+      amountRow,
+      el('label', { class: 'support-label' }, '메시지 (선택)'),
+      msgInput,
+      submitBtn
+    ])
+  ]);
+
+  // ⑦ 가운데 정렬(사이드 제거 버전)
+  const wrap = el('div', { class: 'support-wrap single' }, [leftCol]);  // 가운데 1열 레이아웃
+
+  // ⑧ 페이지 뼈대 (풍선 레이어를 내용 “뒤”로 둘 거면 wrap 앞에, 내용 “위”로 둘 거면 wrap 뒤에)
+  return el('div', { class: 'support-page' }, [
+    NavBar('project'),
+    Divider(),
+    wrap,                                                               // 본문
+    balloonLayer                                                        // === 풍선 레이어(내용 위로 떠 있어야 하므로 마지막에 넣음)
+  ]);
+}
+

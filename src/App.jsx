@@ -23,3 +23,5 @@ export default function App() {
     </div>
   );
 }
+
+case 'support': page = renderSupport(); break;   // ← 추가

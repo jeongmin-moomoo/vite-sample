@@ -357,3 +357,445 @@ nav button.active {
 }
 .counter-page .counter-actions .btn:hover { filter:brightness(.95); }
 .counter-page .counter-actions .btn.reset { background:#ffd166; }
+
+
+
+
+/* ===== Support(후원) 페이지 ===== */
+.support-title { color:#fff; margin: 0 0 12px; font-size: 24px; font-weight: 700; }
+.support-total { color:#fff; margin: 6px 0 22px; font-size: 18px; opacity:.95; }
+
+.support-layout { display:grid; grid-template-columns: 1.2fr .8fr; gap:24px; }
+@media (max-width: 900px) { .support-layout { grid-template-columns: 1fr; } }
+
+.support-left,
+.support-right { display:block; }
+
+.support-card {
+  background:#171717;
+  border-radius:12px;
+  box-shadow:0 0 12px rgba(0,0,0,.22);
+  padding:18px;
+  color:#fff;
+}
+
+.support-card.mini { display:flex; gap:12px; align-items:center; }
+.support-subtitle { margin:0 0 10px; font-weight:700; }
+
+.support-form { display:grid; gap:14px; }
+
+.support-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.support-row.between { justify-content: space-between; }
+
+.support-label { width:80px; color:#ddd; font-weight:600; }
+
+.support-input {
+  flex:1;
+  padding:10px 12px;
+  border:1px solid #2b2b2b;
+  border-radius:8px;
+  background:#111;
+  color:#fff;
+  outline:none;
+}
+.support-input.number { max-width: 180px; }
+.support-input.textarea { min-height: 90px; resize: vertical; }
+.support-input.file { background:transparent; border:none; padding:0; color:#ddd; }
+
+.support-presets { display:flex; gap:8px; }
+.support-won { color:#aaa; }
+
+.support-host-photo {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.counter-page {
+  background: radial-gradient(circle at center, #1a0033, #000);
+  color: #fff;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.btn {
+  background: linear-gradient(90deg, #ff66cc, #6633ff);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  box-shadow: 0 0 10px rgba(255, 102, 204, 0.7);
+}
+
+.btn:hover {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+}
+
+
+/* portfolio.css 맨 아래에 */
+.support-page .support-host-photo {   /* ← 이미지에 실제로 붙은 클래스명과 동일해야 함 */
+  width: 220px;        /* 원하는 크기 */
+  border-radius: 12px; /* 둥근 모서리 */
+  object-fit: cover;   /* 꽉 차게 자르기 */ 
+  text-align: center; /* 가로 가운데 */
+}
+
+/* ======================= */
+/*   Support(후원) 페이지   */
+/* ======================= */
+
+/* 전체 페이지(배경 + 여백) */
+.support-page {
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 64px;
+  overflow: hidden;
+}
+
+/* ✨ 은하(갤럭시) 배경 – 성운 느낌 + 반짝이는 별 */
+.support-page::before,
+.support-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+.support-page::before {
+  /* 성운 분위기 */
+  background:
+    radial-gradient(1000px 600px at 10% 10%, rgba(140,120,255,.25), transparent 60%),
+    radial-gradient(800px 500px at 85% 25%, rgba(100,180,255,.18), transparent 60%),
+    radial-gradient(900px 700px at 50% 80%, rgba(200,120,255,.12), transparent 65%),
+    #0e1014;
+  filter: saturate(120%);
+}
+.support-page::after {
+  /* 반짝이는 별(가벼운 애니메이션) */
+  background-image:
+    radial-gradient(2px 2px at 25% 35%, rgba(255,255,255,.7) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 60% 20%, rgba(255,255,255,.5) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 75% 70%, rgba(255,255,255,.6) 50%, transparent 51%),
+    radial-gradient(1.8px 1.8px at 40% 80%, rgba(255,255,255,.55) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 15% 75%, rgba(255,255,255,.55) 50%, transparent 51%);
+  animation: twinkle 6s linear infinite;
+  opacity: .9;
+  z-index: -1;
+}
+@keyframes twinkle {
+  0%,100% { transform: translateY(0px); opacity:.9; }
+  50%     { transform: translateY(-1px); opacity:.75; }
+}
+
+/* 내용 폭을 가운데로 모으는 래퍼 */
+.support-wrap {
+  max-width: 980px;
+  margin: 40px auto;                  /* 가로 가운데 */
+  display: grid;
+  grid-template-columns: 320px 1fr;   /* 왼: 사진, 오른: 폼/상자 */
+  gap: 24px;
+  align-items: start;
+}
+
+/* 왼쪽 영역(이미지)도 가운데 정렬 */
+.host-photo-wrapper {
+  display: flex;
+  justify-content: center;            /* 가로 가운데 */
+  padding-top: 40px;  
+}
+
+/* 후원 대상 사진(원하면 width/height만 바꿔주면 됨) */
+.support-host-photo {
+  width: 220px;     /* ← 여기 숫자 바꾸면 크기 변경 */
+  height: 300px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 2px solid rgba(180,150,255,.25);
+  box-shadow: 0 0 18px rgba(120, 90, 255, .35);
+  
+}
+
+/* 제목 */
+.support-title {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  margin: 8px 0 16px;
+  text-align: center;
+}
+
+/* 총 후원 표기 */
+.support-total {
+  color: #cfd4ff;
+  margin: 0 0 18px;
+  text-align: center;
+  padding-bottom: 16px;
+}
+
+
+/* 입력/버튼 카드 */
+.support-card {
+  background: #121418;
+  border: 1px solid rgba(200,170,255,.14);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 0 16px rgba(0,0,0,.25);
+}
+
+/* 라벨 + 인풋 */
+.support-label {
+  display: block;
+  color: #cfd4ff;
+  margin: 12px 0 8px;
+  font-weight: 700;
+}
+.support-input,
+.support-textarea {
+  width: 50%;
+  background: #0d0f12;
+  color: #f5f6ff;
+  border: 1px solid rgba(200,170,255,.18);
+  border-radius: 10px;
+  padding: 12px 14px;
+  outline: none;
+}
+.support-input:focus,
+.support-textarea:focus {
+  border-color: rgba(210,180,255,.6);
+  box-shadow: 0 0 0 3px rgba(180,150,255,.2);
+}
+.support-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* 금액 프리셋 버튼 */
+.coin-presets {
+  display: flex;
+  gap: 12px;
+  margin: 10px 0 12px;
+}
+.coin-btn {
+  border: none;
+  background: linear-gradient(135deg,#925bff,#ff6bff);
+  color: #111;
+  font-weight: 800;
+  padding: 10px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform .08s ease, filter .15s ease;
+}
+.coin-btn:hover { filter: brightness(.95); }
+.coin-btn:active { transform: translateY(1px) scale(.98); }
+
+/* 후원 버튼 */
+.support-submit {
+  margin-top: 14px;
+  width: 100%;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg,#8a6bff,#5cf);
+  color: #0b0c10;
+  font-weight: 900;
+  letter-spacing: .2px;
+  cursor: pointer;
+}
+.support-submit:hover { filter: brightness(.96); }
+
+
+/* 반응형 */
+@media (max-width: 860px) {
+  .support-wrap {
+    grid-template-columns: 1fr;
+  }
+  .host-photo-wrapper { margin-bottom: 8px; }
+}
+
+/* ===== Support: 풀폭/가운데 정렬 복구 ===== */
+.support-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;               /* 내부를 가운데로 */
+}
+
+/* 폭 제한 해제하고 적당한 최대폭만 부여 */
+.support-page .support-wrap {
+  width: 100%;
+  max-width: 1200px !important;      /* 예: 1200px 까지 넓게 (필요하면 none) */
+  margin: 0 auto;
+  padding: 0 24px;                   /* 좌우 숨쉬기 */
+}
+
+/* single 모드: 한 칼럼이 중앙에 크게 */
+.support-page .support-wrap.single {
+  display: block;                    /* 그리드/플렉스 강제일 경우 해제 */
+}
+
+/* 내용 카드가 너무 퍼지지 않게 "내용만" 적당히 제한 */
+.support-card,
+.host-photo-wrapper,
+.support-title,
+.support-total {
+  width: 100%;
+  max-width: 800px;                  /* 보기 좋은 카드 폭 (원하면 900/1000으로) */
+  margin: 0 auto;
+}
+
+/* 입력 필드 & 메시지도 시원하게 한 줄 */
+.support-input,
+.support-textarea {
+  width: 100%;
+  max-width: 800px;
+}
+
+/* 빠른 선택 버튼 묶음도 중앙 정렬 */
+.coin-presets {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 8px auto 0;
+  padding-bottom: 8px;
+}
+
+/* 혹시 상위에서 container가 폭을 제한하면 같이 풀어주기 */
+.support-page .container,
+.support-page main {
+  max-width: none !important;
+  width: 100%;
+}
+
+/* 입력 카드 내부 레이아웃을 안전하게 */
+.support-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;              /* 요소 사이 간격 */
+  width: 100%;            /* 래퍼에 맞추기 */
+  max-width: 680px;       /* 카드 최대 폭 (원하면 더 키워도 OK) */
+  margin: 0 auto;         /* 가운데 정렬 */
+  box-sizing: border-box; /* 패딩/테두리 포함 계산 */
+}
+
+/* 라벨과 입력 요소가 카드 너비를 넘지 않도록 */
+.support-label,
+.support-input,
+.support-textarea,
+.coin-presets,
+.support-submit {
+  width: 100%;
+  max-width: 100%;        /* ✅ 카드 밖으로 못 나가게 */
+  box-sizing: border-box; /* ✅ 테두리/패딩 포함 계산 */
+}
+
+/* 코인 빠른 선택 버튼 영역도 가운데 + 줄바꿈 */
+.coin-presets {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.support-card{
+  display:flex; flex-direction:column; gap:12px;
+  width:100%; max-width:680px; margin:0 auto; box-sizing:border-box;
+}
+.support-label,.support-input,.support-textarea,.coin-presets,.support-submit{
+  width:100%; max-width:100%; box-sizing:border-box;
+}
+.coin-presets{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+
+/* === Support 페이지 전체에 신비로운 그라디언트 성운 배경 === */
+.support-page {
+  position: relative;                 /* 배경 레이어를 얹기 위한 기준 */
+  min-height: 100vh;                  /* 화면 꽉 채우기 */
+  overflow: hidden;                   /* 밖으로 삐져나온 배경 숨김 */
+  isolation: isolate;                 /* 배경 레이어와 내용 레이어 분리 */
+}
+
+/* 1층: 깊은 우주 그라디언트 */
+.support-page::before {
+  content: "";
+  position: absolute; inset: 0;
+  z-index: -2;                         /* 본문 뒤로 */
+  background: radial-gradient(1200px 800px at 10% 20%, #1a1f4d 0%, transparent 60%),
+              radial-gradient(1000px 700px at 90% 10%, #2b0f44 0%, transparent 55%),
+              radial-gradient(900px 600px  at 70% 80%, #072b3c 0%, transparent 60%),
+              linear-gradient(#070b1a, #03040a); /* 가장 아래 기본색 */
+  filter: saturate(1.2) contrast(1.05);
+}
+
+/* 2층: 서서히 움직이는 성운 안개 */
+.support-page::after {
+  content: "";
+  position: absolute; inset: -20%;
+  z-index: -1;
+  background: conic-gradient(from 0deg,
+              rgba(132, 81, 255, .22),
+              rgba(0, 220, 255, .12),
+              rgba(255, 0, 153, .18),
+              rgba(132, 81, 255, .22));
+  mix-blend-mode: screen;              /* 아래 색과 섞여 성운처럼 보임 */
+  filter: blur(80px);
+  animation: nebulaSpin 40s linear infinite; /* 천천히 회전 */
+}
+
+@keyframes nebulaSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* 카드/텍스트 가독성 (선택: 필요시) */
+.support-title,
+.support-total,
+.support-card { 
+  position: relative; z-index: 1;
+  backdrop-filter: saturate(1.05);
+}
+
+/* ===== 풍선(메시지) 레이어 ===== */
+.balloon-layer{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.balloon{
+  position: absolute;
+  /* 시작점: JS가 --left 로 주입 (vw 단위) */
+  left: var(--left, 50vw);
+  /* 시작 높이: 아래쪽 근처에서 살짝 랜덤하게 시작할 수 있게 bottom 도 JS에서 세팅 */
+  bottom: var(--bottom, -6vh);
+
+  padding: 10px 14px;
+  color: #fff;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 6px 22px rgba(0,0,0,.35);
+  backdrop-filter: blur(6px);
+  will-change: transform, opacity;
+
+  /* 속도/지연/스케일/좌우 드리프트를 변수로 제어 */
+  transform: translate(-50%, 0) scale(var(--scale, 1));
+  animation: floatUp var(--dur, 6s) cubic-bezier(.25,.6,.2,1) var(--delay, 0s) forwards;
+}
+
+@keyframes floatUp {
+  from {
+    opacity: .95;
+    transform: translate(-50%, 0) scale(var(--scale, 1));
+  }
+  to {
+    /* 위로 -105vh 만큼 이동 + 좌우로 drift (vw) 만큼 이동 */
+    transform: translate(calc(-50% + var(--drift, 0vw)), -105vh) scale(var(--scale, 1));
+    opacity: 0;
+  }
+}
